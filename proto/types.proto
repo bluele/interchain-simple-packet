@@ -1,0 +1,20 @@
+syntax = "proto3";
+package ibc.simple.packet;
+
+option go_package = "github.com/bluele/interchain-simple-packet/types";
+
+import "gogoproto/gogo.proto";
+
+message PacketData {
+    Header header  = 1 [(gogoproto.nullable) = false];
+    bytes  payload = 2;
+}
+
+message Header {
+    repeated HeaderField fields = 1 [(gogoproto.nullable) = false];
+}
+
+message HeaderField {
+    string key   = 1;
+    bytes  value = 2;
+}
