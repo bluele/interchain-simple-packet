@@ -1,5 +1,30 @@
 package types
 
+// PacketDataI defines the standard packet data.
+type PacketDataI interface {
+	GetHeader() HeaderI
+	GetPayload() []byte
+}
+
+var _ PacketDataI = (*PacketData)(nil)
+
+// GetHeader returns a header
+func (pd PacketData) GetHeader() HeaderI {
+	return &pd.Header
+}
+
+// GetPayload returns a payload
+func (pd PacketData) GetPayload() []byte {
+	return pd.Payload
+}
+
+// HeaderI defines the standard header for a packet data.
+type HeaderI interface {
+	Get(key string) ([]byte, bool)
+	Set(key string, value []byte)
+	Keys() []string
+}
+
 // NewSimplePacketData returns a new packet data
 func NewSimplePacketData(h Header, payload []byte) PacketData {
 	return PacketData{Header: h, Payload: payload}
@@ -11,9 +36,12 @@ func NewHeader() Header {
 }
 
 // Get gets the first value associated with the given key.
-func (h Header) Get(key string) *HeaderField {
-	f, _ := h.keyIndex(key)
-	return f
+func (h Header) Get(key string) ([]byte, bool) {
+	f, idx := h.keyIndex(key)
+	if idx == -1 {
+		return nil, false
+	}
+	return f.Value, true
 }
 
 // Set sets the header fields associated with key to the

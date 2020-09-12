@@ -6,15 +6,18 @@ option go_package = "github.com/bluele/interchain-simple-packet/types";
 import "gogoproto/gogo.proto";
 
 message PacketData {
+    option (gogoproto.goproto_getters) = false;
     Header header  = 1 [(gogoproto.nullable) = false];
     bytes  payload = 2;
 }
 
 message Header {
+    option (gogoproto.goproto_getters) = false;
     repeated HeaderField fields = 1 [(gogoproto.nullable) = false];
 }
 
 message HeaderField {
+    option (gogoproto.goproto_getters) = false;
     string key   = 1;
     bytes  value = 2;
 }
