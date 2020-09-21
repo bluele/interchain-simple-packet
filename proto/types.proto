@@ -8,7 +8,7 @@ import "gogoproto/gogo.proto";
 message PacketData {
     option (gogoproto.goproto_getters) = false;
     Header header  = 1 [(gogoproto.nullable) = false];
-    bytes  payload = 2;
+    bytes  payload = 2 [(gogoproto.casttype) = "Payload"];
 }
 
 message Header {

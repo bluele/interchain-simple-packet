@@ -1,9 +1,11 @@
 package types
 
+import "encoding/json"
+
 // PacketDataI defines the standard packet data.
 type PacketDataI interface {
 	GetHeader() HeaderI
-	GetPayload() []byte
+	GetPayload() Payload
 }
 
 var _ PacketDataI = (*PacketData)(nil)
@@ -14,9 +16,12 @@ func (pd PacketData) GetHeader() HeaderI {
 }
 
 // GetPayload returns a payload
-func (pd PacketData) GetPayload() []byte {
+func (pd PacketData) GetPayload() Payload {
 	return pd.Payload
 }
+
+// Payload is a raw encoded JSON value.
+type Payload = json.RawMessage
 
 // HeaderI defines the standard header for a packet data.
 type HeaderI interface {
