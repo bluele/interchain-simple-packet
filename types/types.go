@@ -1,11 +1,13 @@
 package types
 
-import "encoding/json"
+import (
+	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
+)
 
 // PacketDataI defines the standard packet data.
 type PacketDataI interface {
 	GetHeader() HeaderI
-	GetPayload() Payload
+	GetPayload() *codectypes.Any
 }
 
 var _ PacketDataI = (*PacketData)(nil)
@@ -16,12 +18,9 @@ func (pd PacketData) GetHeader() HeaderI {
 }
 
 // GetPayload returns a payload
-func (pd PacketData) GetPayload() Payload {
+func (pd PacketData) GetPayload() *codectypes.Any {
 	return pd.Payload
 }
-
-// Payload is a raw encoded JSON value.
-type Payload = json.RawMessage
 
 // HeaderI defines the standard header for a packet data.
 type HeaderI interface {
@@ -31,7 +30,7 @@ type HeaderI interface {
 }
 
 // NewSimplePacketData returns a new packet data
-func NewSimplePacketData(h Header, payload []byte) PacketData {
+func NewSimplePacketData(h Header, payload *codectypes.Any) PacketData {
 	return PacketData{Header: h, Payload: payload}
 }
 
