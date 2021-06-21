@@ -3,12 +3,13 @@ package ibc.simple.packet;
 
 option go_package = "github.com/bluele/interchain-simple-packet/types";
 
+import "google/protobuf/any.proto";
 import "gogoproto/gogo.proto";
 
 message PacketData {
     option (gogoproto.goproto_getters) = false;
     Header header  = 1 [(gogoproto.nullable) = false];
-    bytes  payload = 2 [(gogoproto.casttype) = "Payload"];
+    google.protobuf.Any payload = 2;
 }
 
 message Header {
